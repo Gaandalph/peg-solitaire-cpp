@@ -19,10 +19,8 @@ int main() {
     while (!game.isGameOver()) {
         cout << "\n" << string(40, '=') << endl;
 
-        // Tahtayı göster
         game.displayBoard();
 
-        // Oyun durumunu kontrol et
         if (game.isGameWon()) {
             cout << "\n🎉 CONGRATULATIONS! You won! Only 1 peg left! 🎉" << endl;
             break;
@@ -49,18 +47,17 @@ int main() {
             cout << "  ... and " << (validMoves.size() - 5) << " more moves" << endl;
         }
 
-        // Kullanıcıdan hamle al
+        //FOR MOVE
         int fromRow, fromCol, toRow, toCol;
         cout << "\nEnter your move (fromRow fromCol toRow toCol): ";
         cin >> fromRow >> fromCol >> toRow >> toCol;
 
-        // Çıkış kontrolü
+        // FOR EXIT
         if (fromRow == -1 && fromCol == -1 && toRow == -1 && toCol == -1) {
             cout << "Thanks for playing!" << endl;
             break;
         }
 
-        // Hamleyi dene
         if (game.makeMove(fromRow, fromCol, toRow, toCol)) {
             cout << "✓ Move successful!" << endl;
         } else {
@@ -72,7 +69,6 @@ int main() {
         }
     }
 
-    // Final sonuçları göster
     cout << "\n" << string(40, '=') << endl;
     cout << "GAME FINISHED!" << endl;
     game.showGameStats();

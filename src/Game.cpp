@@ -5,8 +5,10 @@
 #include "Game.h"
 #include <iostream>
 #include <cmath>
+#include <vector>
+using namespace std;
 
-Game:: Game() : rows(7), cols(7), pegsLeft(0), gameOver(false) {
+Game::Game() : rows(7), cols(7), pegsLeft(0), gameOver(false) {
     initializeBoard();
 }
 
@@ -15,8 +17,7 @@ Game::Game(int r, int c) : rows(r), cols(c), pegsLeft(0), gameOver(false) {
     initializeBoard();
 }
 
-Game:: ~Game() {
-
+Game::~Game() {
 }
 
 void Game::initializeBoard() {
@@ -25,7 +26,7 @@ void Game::initializeBoard() {
     for (int i = 0 ; i < rows ; i++) {
         for (int j = 0 ; j < cols ; j++) {
             if ((i >= 2 && i <= 4) || (j >= 2 && j <= 4)) {
-                board[i][j] = 1 ;
+                board[i][j] = '+' ;
                 pegsLeft++;
             }
         }
@@ -46,7 +47,7 @@ bool Game::isValidPosition(int row, int col) const {
 }
 
 bool Game::isValidMove(int fromRow, int fromCol, int toRow, int toCol) const {
-    if (!isValidPosition(fromRow, fromCol) || board[fromRow][fromCol] == '+')
+    if (!isValidPosition(fromRow, fromCol) || board[fromRow][fromCol] != '+')
         return false;
 
     if (!isValidPosition(toRow, toCol) || board[toRow][toCol] != 'o')
@@ -92,7 +93,7 @@ void Game::removePeg(int row, int col) {
 
 void Game::addPeg(int row, int col) {
     if (isValidPosition(row, col) && board[row][col] =='o') {
-        board[row][col] == '+';
+        board[row][col] = '+';
         pegsLeft++;
     }
 }
@@ -102,7 +103,7 @@ bool Game::hasValidMoves() const {
         for (int j = 0 ; j < cols ; j++) {
             if (board[i][j] == '+') {
 
-                int directions[4][2] = {{-2,0}, {2,0}, {0,-2}, {-2,0}};
+                int directions[4][2] = {{-2,0}, {2,0}, {0,-2}, {0,2}};
                 for (int d = 0 ; d < 4 ; d++) {
                     int newRow = i + directions[d][0];
                     int newCol = j + directions[d][1];
@@ -118,7 +119,7 @@ bool Game::hasValidMoves() const {
 }
 
 void Game::displayBoard() const {
-    cout << "\n ";
+    cout << "\n  ";
     for (int j = 0; j < cols; j++) {
         cout << j << " ";
     }
@@ -175,4 +176,19 @@ bool Game::isGameWon() const {
 bool Game::isGameOver() const {
     return gameOver || isGameWon();
 }
+
+void Game::showGameStats() const {
+    cout << "Final Board:" << endl;
+    displayBoard();
+    cout << "Game Statistics:" << endl;
+    cout << pegsLeft;
+    cout << "- Pegs remaining: " << pegsLeft << endl;
+    if (isGameWon()) {
+        cout << "- Result: VICTORY!" << endl;
+    } else {
+        cout << "- Result: Game Over" << endl;
+    }
+}
+
+
 
